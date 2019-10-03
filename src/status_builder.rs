@@ -25,6 +25,7 @@ pub struct StatusBuilder {
     media_ids: Option<Vec<String>>,
     sensitive: Option<bool>,
     spoiler_text: Option<String>,
+    content_type: Option<String>,
     visibility: Option<Visibility>,
     language: Option<Language>,
 }
@@ -150,6 +151,25 @@ impl StatusBuilder {
         self
     }
 
+    /// Set the spoiler text/CW for the post
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use elefren::prelude::*;
+    /// # fn main() -> Result<(), elefren::Error> {
+    /// let status = StatusBuilder::new()
+    ///     .status("<b>thicc</b>")
+    ///     .content_type("text/html")
+    ///     .build()?;
+    /// #   Ok(())
+    /// # }
+    /// ```
+    pub fn content_type<I: Into<String>>(&mut self, content_type: I) -> &mut Self {
+        self.content_type = Some(content_type.into());
+        self
+    }
+
     /// Set the visibility for the post
     ///
     /// # Example
@@ -215,6 +235,7 @@ impl StatusBuilder {
             spoiler_text: self.spoiler_text.clone(),
             visibility: self.visibility.clone(),
             language: self.language.clone(),
+            content_type: self.content_type.clone(),
         })
     }
 }
@@ -236,6 +257,8 @@ pub struct NewStatus {
     visibility: Option<Visibility>,
     #[serde(skip_serializing_if = "Option::is_none")]
     language: Option<Language>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    content_type: Option<String>,
 }
 
 /// The visibility of a status.
