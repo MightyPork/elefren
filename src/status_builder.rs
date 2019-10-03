@@ -301,6 +301,7 @@ mod tests {
             spoiler_text: None,
             visibility: None,
             language: None,
+            content_type: None
         };
         assert_eq!(s, expected);
     }
